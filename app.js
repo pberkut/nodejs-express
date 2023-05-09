@@ -6,16 +6,16 @@ const cors = require('cors');
 
 const pathServerLog = path.join(__dirname, '/public/server.log');
 
-const users = require('./db/users');
+const contactsRouter = require('./routes/api/contacts');
+
 let count = null;
 
 const app = express();
 
-// const corsMiddleware = cors();
-// app.use(corsMiddleware);
 app.use(cors());
 
 app.use(async (req, res, next) => {
+  // logs request
   const { method, url } = req;
   const date = moment().format('DD-MM-YYYY_hh:mm:ss');
 
@@ -25,23 +25,16 @@ app.use(async (req, res, next) => {
 });
 
 app.use((req, res, next) => {
+  // Count request
   count += 1;
   console.log(`Middleware ${count}`);
-
   next();
 });
 
+app.use('/api/contacts', contactsRouter);
+
 app.get('/', (req, res) => {
   res.send('Hello World!');
-});
-
-app.get('/contacts', (req, res) => {
-  // res.send('<h1>Contact page!</h1>');
-  res.json(users);
-});
-
-app.get('/contacts/:id', (req, res) => {
-  // res.send(`<h1>Contact</h1> Параметр: ${req.params.id}`);
 });
 
 app.use((req, res) => {
@@ -51,5 +44,5 @@ app.use((req, res) => {
 });
 
 app.listen(3001, () => {
-  console.log('Example app listening on port 3000!');
+  console.log('Example app listening on port 3001!');
 });

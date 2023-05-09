@@ -20,9 +20,11 @@
 
 
         const onClick = () => {
-            axios.get("http:localhost:3001/contacts").then((response) => {
+            axios.get("http:localhost:3001/api/contacts").then((response) => {
                 console.log(response.data);
-            }).catch(console.log)
+            }).catch(error => {
+                throw new Error(error)
+            })
 
         }
 

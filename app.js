@@ -6,18 +6,14 @@ const cors = require('cors');
 
 const pathServerLog = path.join(__dirname, '/public/server.log');
 
+const users = require('./db/users');
+let count = null;
+
 const app = express();
 
 // const corsMiddleware = cors();
 // app.use(corsMiddleware);
 app.use(cors());
-
-const dbRes = [
-  { id: 1, name: 'John' },
-  { id: 2, name: 'Smith' },
-  { id: 3, name: 'Dino' },
-  { id: 4, name: 'Alex' },
-];
 
 app.use(async (req, res, next) => {
   const { method, url } = req;
@@ -29,7 +25,8 @@ app.use(async (req, res, next) => {
 });
 
 app.use((req, res, next) => {
-  console.log('Middleware');
+  count += 1;
+  console.log(`Middleware ${count}`);
 
   next();
 });
@@ -38,14 +35,13 @@ app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
-app.get('/contact', (req, res) => {
-  res.send('<h1>Contact page!</h1>');
+app.get('/contacts', (req, res) => {
+  // res.send('<h1>Contact page!</h1>');
+  res.json(users);
 });
 
-app.get('/contact/:id', (req, res) => {
+app.get('/contacts/:id', (req, res) => {
   // res.send(`<h1>Contact</h1> Параметр: ${req.params.id}`);
-
-  res.json(dbRes);
 });
 
 app.use((req, res) => {

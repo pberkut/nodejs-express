@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Frontend</title>
 </head>
 
 <body>
@@ -14,18 +14,18 @@
     <button class="button">
         request GET
     </button>
+
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
     <script>
         const btn = document.querySelector(".button");
-
 
         const onClick = () => {
             axios.get("http:localhost:3001/api/contacts").then((response) => {
                 console.log(response.data);
             }).catch(error => {
-                throw new Error(error)
+                console.log(error.message)
             })
-
         }
 
         btn.addEventListener("click", onClick);
